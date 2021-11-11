@@ -48,7 +48,7 @@ export default {
     border-radius: 20px;
     padding: 48px 32px;
     max-width: 450px;
-    background-color: #84ceeb;
+    background-color: #fff;
     color: #fff;
 
     p {

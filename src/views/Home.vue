@@ -32,7 +32,7 @@
       <Event v-for="(event, index) in filteredData" :event="event" :key="index" />
     </div>
     <div v-else class="empty flex flex-column">
-      <img src="@/assets/illustration-empty.svg" alt="" />
+      <img src="@/assets/new/music_2.svg" alt="" />
       <h3>There is nothing here</h3>
       <p>Create a new event by clicking the New Event button and get started</p>
     </div>

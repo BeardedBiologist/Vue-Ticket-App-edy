@@ -283,7 +283,7 @@ export default {
       .billing-items {
         padding: 32px;
         border-radius: 20px 20px 0 0;
-        background-color: #84ceeb;
+        background-color: #fff;
 
         .heading {
           color: #dfe3fa;

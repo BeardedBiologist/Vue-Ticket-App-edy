@@ -1,7 +1,7 @@
 <template>
   <header class="flex">
     <div class="branding flex">
-      <img src="@/assets/file-event-dollar-solid.png" alt="" />
+      <img src="@/assets/new/people.event.png" alt="" />
     </div>
   </header>
 </template>
@@ -36,6 +36,8 @@ header {
     img {
       width: auto;
       height: 30px;
+      -webkit-filter: invert(1);
+      filter: invert(1);
     }
   }
 }

@@ -461,7 +461,7 @@ export default {
 
         .button {
           color: #fff;
-          background-color: #84ceeb;
+          background-color: #fff;
           align-items: center;
           justify-content: center;
           width: 100%;

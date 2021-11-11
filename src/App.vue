@@ -117,7 +117,7 @@ button,
 }
 
 .dark-purple {
-  background-color: #84ceeb;
+  background-color: #fff;
 }
 
 .red {
