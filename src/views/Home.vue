@@ -3,8 +3,8 @@
     <!-- Header -->
     <div class="header flex">
       <div class="left flex flex-column">
-        <h1>Invoices</h1>
-        <span>There are {{ invoiceData.length }} total invoices</span>
+        <h1>Events</h1>
+        <span>There are {{ invoiceData.length }} total events</span>
       </div>
       <div class="right flex">
         <div @click="toggleFilterMenu" class="filter flex">
@@ -13,10 +13,10 @@
           >
           <img src="@/assets/icon-arrow-down.svg" alt="" />
           <ul v-show="filterMenu" class="filter-menu">
-            <li @click="filteredInvoices">Draft</li>
-            <li @click="filteredInvoices">Pending</li>
-            <li @click="filteredInvoices">Paid</li>
-            <li @click="filteredInvoices">Clear Filter</li>
+            <li @click="filteredEvents">Draft</li>
+            <li @click="filteredEvents">Pending</li>
+            <li @click="filteredEvents">Paid</li>
+            <li @click="filteredEvents">Clear Filter</li>
           </ul>
         </div>
         <div @click="newInvoice" class="button flex">
@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <!-- Invoices -->
+    <!-- Events -->
     <div v-if="invoiceData.length > 0">
       <Invoice v-for="(invoice, index) in filteredData" :invoice="invoice" :key="index" />
     </div>
@@ -63,7 +63,7 @@ export default {
       this.filterMenu = !this.filterMenu;
     },
 
-    filteredInvoices(e) {
+    filteredEvents(e) {
       if (e.target.innerText === "Clear Filter") {
         this.filteredInvoice = null;
         return;

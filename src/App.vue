@@ -1,5 +1,5 @@
 <template>
-  <div v-if="invoicesLoaded">
+  <div v-if="eventsLoaded">
     <div v-if="!mobile" class="app flex flex-column">
       <Navigation />
       <div class="app-content flex flex-column">
@@ -34,12 +34,12 @@ export default {
     Modal,
   },
   created() {
-    this.GET_INVOICES();
+    this.GET_EVENTS();
     this.checkScreen();
     window.addEventListener("resize", this.checkScreen);
   },
   methods: {
-    ...mapActions(["GET_INVOICES"]),
+    ...mapActions(["GET_EVENTS"]),
 
     checkScreen() {
       const windowWidth = window.innerWidth;
@@ -51,7 +51,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["invoiceModal", "modalActive", "invoicesLoaded"]),
+    ...mapState(["invoiceModal", "modalActive", "eventsLoaded"]),
   },
 };
 </script>

@@ -195,7 +195,7 @@ export default {
   methods: {
     ...mapMutations(["TOGGLE_INVOICE", "TOGGLE_MODAL", "TOGGLE_EDIT_INVOICE"]),
 
-    ...mapActions(["UPDATE_INVOICE", "GET_INVOICES"]),
+    ...mapActions(["UPDATE_INVOICE", "GET_EVENTS"]),
 
     checkClick(e) {
       if (e.target === this.$refs.invoiceWrap) {
@@ -249,7 +249,7 @@ export default {
 
       this.calInvoiceTotal();
 
-      const dataBase = db.collection("invoices").doc();
+      const dataBase = db.collection("events").doc();
 
       await dataBase.set({
         invoiceId: uid(6),
@@ -280,7 +280,7 @@ export default {
 
       this.TOGGLE_INVOICE();
 
-      this.GET_INVOICES();
+      this.GET_EVENTS();
     },
 
     async updateInvoice() {
@@ -293,7 +293,7 @@ export default {
 
       this.calInvoiceTotal();
 
-      const dataBase = db.collection("invoices").doc(this.docId);
+      const dataBase = db.collection("events").doc(this.docId);
 
       await dataBase.update({
         billerStreetAddress: this.billerStreetAddress,

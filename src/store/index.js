@@ -6,7 +6,7 @@ export default createStore({
     invoiceData: [],
     invoiceModal: null,
     modalActive: null,
-    invoicesLoaded: null,
+    eventsLoaded: null,
     currentInvoiceArray: null,
     editInvoice: null,
   },
@@ -20,8 +20,8 @@ export default createStore({
     SET_INVOICE_DATA(state, payload) {
       state.invoiceData.push(payload);
     },
-    INVOICES_LOADED(state) {
-      state.invoicesLoaded = true;
+    EVENTS_LOADED(state) {
+      state.eventsLoaded = true;
     },
     SET_CURRENT_INVOICE(state, payload) {
       state.currentInvoiceArray = state.invoiceData.filter((invoice) => {
@@ -53,8 +53,8 @@ export default createStore({
     },
   },
   actions: {
-    async GET_INVOICES({ commit, state }) {
-      const getData = db.collection("invoices");
+    async GET_EVENTS({ commit, state }) {
+      const getData = db.collection("events");
       const results = await getData.get();
       results.forEach((doc) => {
         if (!state.invoiceData.some((invoice) => invoice.docId === doc.id)) {
@@ -86,22 +86,22 @@ export default createStore({
           commit("SET_INVOICE_DATA", data);
         }
       });
-      commit("INVOICES_LOADED");
+      commit("EVENTS_LOADED");
     },
     async UPDATE_INVOICE({ commit, dispatch }, { docId, routeId }) {
       commit("DELETE_INVOICE", docId);
-      await dispatch("GET_INVOICES");
+      await dispatch("GET_EVENTS");
       commit("TOGGLE_INVOICE");
       commit("TOGGLE_EDIT_INVOICE");
       commit("SET_CURRENT_INVOICE", routeId);
     },
     async DELETE_INVOICE({ commit }, docId) {
-      const getInvoice = db.collection("invoices").doc(docId);
+      const getInvoice = db.collection("events").doc(docId);
       await getInvoice.delete();
       commit("DELETE_INVOICE", docId);
     },
     async UPDATE_STATUS_TO_PAID({ commit }, docId) {
-      const getInvoice = db.collection("invoices").doc(docId);
+      const getInvoice = db.collection("events").doc(docId);
       await getInvoice.update({
         invoicePaid: true,
         invoicePending: false,
@@ -109,7 +109,7 @@ export default createStore({
       commit("UPDATE_STATUS_TO_PAID", docId);
     },
     async UPDATE_STATUS_TO_PENDING({ commit }, docId) {
-      const getInvoice = db.collection("invoices").doc(docId);
+      const getInvoice = db.collection("events").doc(docId);
       await getInvoice.update({
         invoicePaid: false,
         invoicePending: true,
