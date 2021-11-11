@@ -67,7 +67,7 @@ export default {
 }
 
 .app {
-  background-color: #141625;
+  background-color: #5680e9;
   min-height: 100vh;
   @media (min-width: 900px) {
     flex-direction: row !important;
@@ -85,7 +85,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #141625;
+  background-color: #5680e9;
   color: #fff;
 
   p {
@@ -117,7 +117,7 @@ button,
 }
 
 .dark-purple {
-  background-color: #252945;
+  background-color: #84ceeb;
 }
 
 .red {
@@ -125,7 +125,7 @@ button,
 }
 
 .purple {
-  background-color: #7c5dfa;
+  background-color: #8860d0;
 }
 
 .green {

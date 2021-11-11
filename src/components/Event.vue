@@ -38,7 +38,7 @@ export default {
   color: #fff;
   border-radius: 20px;
   padding: 28px 32px;
-  background-color: #1e2139;
+  background-color: #5ab9ea;
   align-items: center;
 
   span {

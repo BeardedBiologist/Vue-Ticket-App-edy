@@ -167,7 +167,7 @@ export default {
 
   .header,
   .event-details {
-    background-color: #1e2139;
+    background-color: #5ab9ea;
     border-radius: 20px;
   }
 
@@ -283,7 +283,7 @@ export default {
       .billing-items {
         padding: 32px;
         border-radius: 20px 20px 0 0;
-        background-color: #252945;
+        background-color: #84ceeb;
 
         .heading {
           color: #dfe3fa;

@@ -365,7 +365,7 @@ export default {
     padding: 56px;
     max-width: 700px;
     width: 100%;
-    background-color: #141625;
+    background-color: #5680e9;
     color: #fff;
     box-shadow: 10px 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
@@ -381,7 +381,7 @@ export default {
     }
 
     h4 {
-      color: #7c5dfa;
+      color: #8860d0;
       font-size: 12px;
       margin-bottom: 24px;
     }
@@ -461,7 +461,7 @@ export default {
 
         .button {
           color: #fff;
-          background-color: #252945;
+          background-color: #84ceeb;
           align-items: center;
           justify-content: center;
           width: 100%;
@@ -498,7 +498,7 @@ export default {
   input,
   select {
     width: 100%;
-    background-color: #1e2139;
+    background-color: #5ab9ea;
     color: #fff;
     border-radius: 4px;
     padding: 12px 4px;
