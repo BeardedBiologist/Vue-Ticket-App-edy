@@ -175,8 +175,8 @@ export default {
     align-items: center;
 
     img {
-      width: 214px;
-      height: 200px;
+      width: 414px;
+      height: 400px;
     }
 
     h3 {
