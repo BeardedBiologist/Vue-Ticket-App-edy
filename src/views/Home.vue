@@ -4,12 +4,12 @@
     <div class="header flex">
       <div class="left flex flex-column">
         <h1>Events</h1>
-        <span>There are {{ invoiceData.length }} total events</span>
+        <span>There are {{ eventData.length }} total events</span>
       </div>
       <div class="right flex">
         <div @click="toggleFilterMenu" class="filter flex">
           <span
-            >Filter by status <span v-if="filteredInvoice">: {{ filteredInvoice }}</span></span
+            >Filter by status <span v-if="filteredEvent">: {{ filteredEvent }}</span></span
           >
           <img src="@/assets/icon-arrow-down.svg" alt="" />
           <ul v-show="filterMenu" class="filter-menu">
@@ -19,44 +19,44 @@
             <li @click="filteredEvents">Clear Filter</li>
           </ul>
         </div>
-        <div @click="newInvoice" class="button flex">
+        <div @click="newEvent" class="button flex">
           <div class="inner-button flex">
             <img src="@/assets/icon-plus.svg" alt="" />
           </div>
-          <span>New Invoice</span>
+          <span>New Event</span>
         </div>
       </div>
     </div>
     <!-- Events -->
-    <div v-if="invoiceData.length > 0">
-      <Invoice v-for="(invoice, index) in filteredData" :invoice="invoice" :key="index" />
+    <div v-if="eventData.length > 0">
+      <Event v-for="(event, index) in filteredData" :event="event" :key="index" />
     </div>
     <div v-else class="empty flex flex-column">
       <img src="@/assets/illustration-empty.svg" alt="" />
       <h3>There is nothing here</h3>
-      <p>Create a new invoice by clicking the New Invoice button and get started</p>
+      <p>Create a new event by clicking the New Event button and get started</p>
     </div>
   </div>
 </template>
 
 <script>
-import Invoice from "../components/Invoice";
+import Event from "../components/Event";
 import { mapMutations, mapState } from "vuex";
 export default {
   name: "Home",
   data() {
     return {
       filterMenu: null,
-      filteredInvoice: null,
+      filteredEvent: null,
     };
   },
   components: {
-    Invoice,
+    Event,
   },
   methods: {
-    ...mapMutations(["TOGGLE_INVOICE"]),
-    newInvoice() {
-      this.TOGGLE_INVOICE();
+    ...mapMutations(["TOGGLE_EVENT"]),
+    newEvent() {
+      this.TOGGLE_EVENT();
     },
 
     toggleFilterMenu() {
@@ -65,27 +65,27 @@ export default {
 
     filteredEvents(e) {
       if (e.target.innerText === "Clear Filter") {
-        this.filteredInvoice = null;
+        this.filteredEvent = null;
         return;
       }
-      this.filteredInvoice = e.target.innerText;
+      this.filteredEvent = e.target.innerText;
     },
   },
   computed: {
-    ...mapState(["invoiceData"]),
+    ...mapState(["eventData"]),
 
     filteredData() {
-      return this.invoiceData.filter((invoice) => {
-        if (this.filteredInvoice === "Draft") {
-          return invoice.invoiceDraft === true;
+      return this.eventData.filter((event) => {
+        if (this.filteredEvent === "Draft") {
+          return event.eventDraft === true;
         }
-        if (this.filteredInvoice === "Pending") {
-          return invoice.invoicePending === true;
+        if (this.filteredEvent === "Pending") {
+          return event.eventPending === true;
         }
-        if (this.filteredInvoice === "Paid") {
-          return invoice.invoicePaid === true;
+        if (this.filteredEvent === "Paid") {
+          return event.eventPaid === true;
         }
-        return invoice;
+        return event;
       });
     },
   },

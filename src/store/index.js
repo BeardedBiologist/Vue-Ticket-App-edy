@@ -3,51 +3,51 @@ import db from "../firebase/firebaseinit";
 
 export default createStore({
   state: {
-    invoiceData: [],
-    invoiceModal: null,
+    eventData: [],
+    eventModal: null,
     modalActive: null,
     eventsLoaded: null,
-    currentInvoiceArray: null,
-    editInvoice: null,
+    currentEventArray: null,
+    editEvent: null,
   },
   mutations: {
-    TOGGLE_INVOICE(state) {
-      state.invoiceModal = !state.invoiceModal;
+    TOGGLE_EVENT(state) {
+      state.eventModal = !state.eventModal;
     },
     TOGGLE_MODAL(state) {
       state.modalActive = !state.modalActive;
     },
-    SET_INVOICE_DATA(state, payload) {
-      state.invoiceData.push(payload);
+    SET_EVENT_DATA(state, payload) {
+      state.eventData.push(payload);
     },
     EVENTS_LOADED(state) {
       state.eventsLoaded = true;
     },
-    SET_CURRENT_INVOICE(state, payload) {
-      state.currentInvoiceArray = state.invoiceData.filter((invoice) => {
-        return invoice.invoiceId === payload;
+    SET_CURRENT_EVENT(state, payload) {
+      state.currentEventArray = state.eventData.filter((event) => {
+        return event.eventId === payload;
       });
     },
-    TOGGLE_EDIT_INVOICE(state) {
-      state.editInvoice = !state.editInvoice;
+    TOGGLE_EDIT_EVENT(state) {
+      state.editEvent = !state.editEvent;
     },
-    DELETE_INVOICE(state, payload) {
-      state.invoiceData = state.invoiceData.filter((invoice) => invoice.docId !== payload);
+    DELETE_EVENT(state, payload) {
+      state.eventData = state.eventData.filter((event) => event.docId !== payload);
     },
     UPDATE_STATUS_TO_PAID(state, payload) {
-      state.invoiceData.forEach((invoice) => {
-        if (invoice.docId === payload) {
-          invoice.invoicePaid = true;
-          invoice.invoicePending = false;
+      state.eventData.forEach((event) => {
+        if (event.docId === payload) {
+          event.eventPaid = true;
+          event.eventPending = false;
         }
       });
     },
     UPDATE_STATUS_TO_PENDING(state, payload) {
-      state.invoiceData.forEach((invoice) => {
-        if (invoice.docId === payload) {
-          invoice.invoicePaid = false;
-          invoice.invoicePending = true;
-          invoice.invoiceDraft = false;
+      state.eventData.forEach((event) => {
+        if (event.docId === payload) {
+          event.eventPaid = false;
+          event.eventPending = true;
+          event.eventDraft = false;
         }
       });
     },
@@ -57,10 +57,10 @@ export default createStore({
       const getData = db.collection("events");
       const results = await getData.get();
       results.forEach((doc) => {
-        if (!state.invoiceData.some((invoice) => invoice.docId === doc.id)) {
+        if (!state.eventData.some((event) => event.docId === doc.id)) {
           const data = {
             docId: doc.id,
-            invoiceId: doc.data().invoiceId,
+            eventId: doc.data().eventId,
             billerStreetAddress: doc.data().billerStreetAddress,
             billerCity: doc.data().billerCity,
             billerZipCode: doc.data().billerZipCode,
@@ -71,49 +71,49 @@ export default createStore({
             clientCity: doc.data().clientCity,
             clientZipCode: doc.data().clientZipCode,
             clientCountry: doc.data().clientCountry,
-            invoiceDateUnix: doc.data().invoiceDateUnix,
-            invoiceDate: doc.data().invoiceDate,
+            eventDateUnix: doc.data().eventDateUnix,
+            eventDate: doc.data().eventDate,
             paymentTerms: doc.data().paymentTerms,
             paymentDueDateUnix: doc.data().paymentDueDateUnix,
             paymentDueDate: doc.data().paymentDueDate,
             productDescription: doc.data().productDescription,
-            invoiceItemList: doc.data().invoiceItemList,
-            invoiceTotal: doc.data().invoiceTotal,
-            invoicePending: doc.data().invoicePending,
-            invoiceDraft: doc.data().invoiceDraft,
-            invoicePaid: doc.data().invoicePaid,
+            eventItemList: doc.data().eventItemList,
+            eventTotal: doc.data().eventTotal,
+            eventPending: doc.data().eventPending,
+            eventDraft: doc.data().eventDraft,
+            eventPaid: doc.data().eventPaid,
           };
-          commit("SET_INVOICE_DATA", data);
+          commit("SET_EVENT_DATA", data);
         }
       });
       commit("EVENTS_LOADED");
     },
-    async UPDATE_INVOICE({ commit, dispatch }, { docId, routeId }) {
-      commit("DELETE_INVOICE", docId);
+    async UPDATE_EVENT({ commit, dispatch }, { docId, routeId }) {
+      commit("DELETE_EVENT", docId);
       await dispatch("GET_EVENTS");
-      commit("TOGGLE_INVOICE");
-      commit("TOGGLE_EDIT_INVOICE");
-      commit("SET_CURRENT_INVOICE", routeId);
+      commit("TOGGLE_EVENT");
+      commit("TOGGLE_EDIT_EVENT");
+      commit("SET_CURRENT_EVENT", routeId);
     },
-    async DELETE_INVOICE({ commit }, docId) {
-      const getInvoice = db.collection("events").doc(docId);
-      await getInvoice.delete();
-      commit("DELETE_INVOICE", docId);
+    async DELETE_EVENT({ commit }, docId) {
+      const getEvent = db.collection("events").doc(docId);
+      await getEvent.delete();
+      commit("DELETE_EVENT", docId);
     },
     async UPDATE_STATUS_TO_PAID({ commit }, docId) {
-      const getInvoice = db.collection("events").doc(docId);
-      await getInvoice.update({
-        invoicePaid: true,
-        invoicePending: false,
+      const getEvent = db.collection("events").doc(docId);
+      await getEvent.update({
+        eventPaid: true,
+        eventPending: false,
       });
       commit("UPDATE_STATUS_TO_PAID", docId);
     },
     async UPDATE_STATUS_TO_PENDING({ commit }, docId) {
-      const getInvoice = db.collection("events").doc(docId);
-      await getInvoice.update({
-        invoicePaid: false,
-        invoicePending: true,
-        invoiceDraft: false,
+      const getEvent = db.collection("events").doc(docId);
+      await getEvent.update({
+        eventPaid: false,
+        eventPending: true,
+        eventDraft: false,
       });
       commit("UPDATE_STATUS_TO_PENDING", docId);
     },

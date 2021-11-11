@@ -4,8 +4,8 @@
       <Navigation />
       <div class="app-content flex flex-column">
         <Modal v-if="modalActive" />
-        <transition name="invoice">
-          <InvoiceModal v-if="invoiceModal" />
+        <transition name="event">
+          <EventModal v-if="eventModal" />
         </transition>
         <router-view />
       </div>
@@ -20,7 +20,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import Navigation from "./components/Navigation";
-import InvoiceModal from "./components/InvoiceModal";
+import EventModal from "./components/EventModal";
 import Modal from "./components/Modal";
 export default {
   data() {
@@ -30,7 +30,7 @@ export default {
   },
   components: {
     Navigation,
-    InvoiceModal,
+    EventModal,
     Modal,
   },
   created() {
@@ -51,7 +51,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["invoiceModal", "modalActive", "eventsLoaded"]),
+    ...mapState(["eventModal", "modalActive", "eventsLoaded"]),
   },
 };
 </script>
@@ -93,15 +93,15 @@ export default {
   }
 }
 
-// animated invoice
+// animated event
 
-.invoice-enter-active,
-.invoice-leave-active {
+.event-enter-active,
+.event-leave-active {
   transition: 0.8s ease all;
 }
 
-.invoice-enter-from,
-.invoice-leave-to {
+.event-enter-from,
+.event-leave-to {
   transform: translateX(-700px);
 }
 

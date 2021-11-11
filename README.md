@@ -1,4 +1,4 @@
-# invoice
+# event
 
 ## Project setup
 ```

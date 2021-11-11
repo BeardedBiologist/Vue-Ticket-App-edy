@@ -1,9 +1,9 @@
 <template>
-  <div @click="checkClick" ref="invoiceWrap" class="invoice-wrap flex flex-column">
-    <form @submit.prevent="submitForm" class="invoice-content">
+  <div @click="checkClick" ref="eventWrap" class="event-wrap flex flex-column">
+    <form @submit.prevent="submitForm" class="event-content">
       <Loading v-show="loading" />
-      <h1 v-if="!editInvoice">New Invoice</h1>
-      <h1 v-else>Edit Invoice</h1>
+      <h1 v-if="!editEvent">New Event</h1>
+      <h1 v-else>Edit Event</h1>
 
       <!-- Bill From -->
       <div class="bill-from flex flex-column">
@@ -59,12 +59,12 @@
         </div>
       </div>
 
-      <!-- Invoice Work Details -->
-      <div class="invoice-work flex flex-column">
+      <!-- Event Work Details -->
+      <div class="event-work flex flex-column">
         <div class="payment flex">
           <div class="input flex flex-column">
-            <label for="invoiceDate">Invoice Date</label>
-            <input disabled type="text" id="invoiceDate" v-model="invoiceDate" />
+            <label for="eventDate">Event Date</label>
+            <input disabled type="text" id="eventDate" v-model="eventDate" />
           </div>
           <div class="input flex flex-column">
             <label for="paymentDueDate">Payment Due</label>
@@ -91,16 +91,16 @@
               <th class="price">Price</th>
               <th class="total">Total</th>
             </tr>
-            <tr class="table-items flex" v-for="(item, index) in invoiceItemList" :key="index">
+            <tr class="table-items flex" v-for="(item, index) in eventItemList" :key="index">
               <td class="item-name"><input type="text" v-model="item.itemName" /></td>
               <td class="qty"><input type="text" v-model="item.qty" /></td>
               <td class="price"><input type="text" v-model="item.price" /></td>
               <td class="total flex">Kr {{ (item.total = item.qty * item.price) }}</td>
-              <img @click="deleteInvoiceItem(item.id)" src="@/assets/icon-delete.svg" alt="" />
+              <img @click="deleteEventItem(item.id)" src="@/assets/icon-delete.svg" alt="" />
             </tr>
           </table>
 
-          <div @click="addNewInvoiceItem" class="flex button">
+          <div @click="addNewEventItem" class="flex button">
             <img src="@/assets/icon-plus.svg" alt="" />
             Add New Item
           </div>
@@ -110,13 +110,13 @@
       <!-- Save/Exit -->
       <div class="save flex">
         <div class="left">
-          <button type="button" @click="closeInvoice" class="red">Cancel</button>
+          <button type="button" @click="closeEvent" class="red">Cancel</button>
         </div>
         <div class="right flex">
-          <button v-if="!editInvoice" type="submit" @click="saveDraft" class="dark-purple">Save Draft</button>
-          <button v-if="!editInvoice" type="submit" @click="publishInvoice" class="purple">Create Invoice</button>
-          <button v-if="editInvoice" type="sumbit" class="orange">Save Draft</button>
-          <button v-if="editInvoice" type="sumbit" class="purple">Update Invoice</button>
+          <button v-if="!editEvent" type="submit" @click="saveDraft" class="dark-purple">Save Draft</button>
+          <button v-if="!editEvent" type="submit" @click="publishEvent" class="purple">Create Event</button>
+          <button v-if="editEvent" type="sumbit" class="orange">Save Draft</button>
+          <button v-if="editEvent" type="sumbit" class="purple">Update Event</button>
         </div>
       </div>
     </form>
@@ -129,7 +129,7 @@ import Loading from "../components/Loading";
 import { mapActions, mapMutations, mapState } from "vuex";
 import { uid } from "uid";
 export default {
-  name: "invoiceModal",
+  name: "eventModal",
   data() {
     return {
       dateOptions: { year: "numeric", month: "short", day: "numeric" },
@@ -145,73 +145,73 @@ export default {
       clientCity: null,
       clientZipCode: null,
       clientCountry: null,
-      invoiceDateUnix: null,
-      invoiceDate: null,
+      eventDateUnix: null,
+      eventDate: null,
       paymentTerms: null,
       paymentDueDateUnix: null,
       paymentDueDate: null,
       productDescription: null,
-      invoicePending: null,
-      invoiceDraft: null,
-      invoiceItemList: [],
-      invoiceTotal: 0,
+      eventPending: null,
+      eventDraft: null,
+      eventItemList: [],
+      eventTotal: 0,
     };
   },
   components: {
     Loading,
   },
   created() {
-    // get current date for invoice date field
-    if (!this.editInvoice) {
-      this.invoiceDateUnix = Date.now();
-      this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString("en-us", this.dateOptions);
+    // get current date for event date field
+    if (!this.editEvent) {
+      this.eventDateUnix = Date.now();
+      this.eventDate = new Date(this.eventDateUnix).toLocaleDateString("en-us", this.dateOptions);
     }
 
-    if (this.editInvoice) {
-      const currentInvoice = this.currentInvoiceArray[0];
-      this.docId = currentInvoice.docId;
-      this.billerStreetAddress = currentInvoice.billerStreetAddress;
-      this.billerCity = currentInvoice.billerCity;
-      this.billerZipCode = currentInvoice.billerZipCode;
-      this.billerCountry = currentInvoice.billerCountry;
-      this.clientName = currentInvoice.clientName;
-      this.clientEmail = currentInvoice.clientEmail;
-      this.clientStreetAddress = currentInvoice.clientStreetAddress;
-      this.clientCity = currentInvoice.clientCity;
-      this.clientZipCode = currentInvoice.clientZipCode;
-      this.clientCountry = currentInvoice.clientCountry;
-      this.invoiceDateUnix = currentInvoice.invoiceDateUnix;
-      this.invoiceDate = currentInvoice.invoiceDate;
-      this.paymentTerms = currentInvoice.paymentTerms;
-      this.paymentDueDateUnix = currentInvoice.paymentDueDateUnix;
-      this.paymentDueDate = currentInvoice.paymentDueDate;
-      this.productDescription = currentInvoice.productDescription;
-      this.invoicePending = currentInvoice.invoicePending;
-      this.invoiceDraft = currentInvoice.invoiceDraft;
-      this.invoiceItemList = currentInvoice.invoiceItemList;
-      this.invoiceTotal = currentInvoice.invoiceTotal;
+    if (this.editEvent) {
+      const currentEvent = this.currentEventArray[0];
+      this.docId = currentEvent.docId;
+      this.billerStreetAddress = currentEvent.billerStreetAddress;
+      this.billerCity = currentEvent.billerCity;
+      this.billerZipCode = currentEvent.billerZipCode;
+      this.billerCountry = currentEvent.billerCountry;
+      this.clientName = currentEvent.clientName;
+      this.clientEmail = currentEvent.clientEmail;
+      this.clientStreetAddress = currentEvent.clientStreetAddress;
+      this.clientCity = currentEvent.clientCity;
+      this.clientZipCode = currentEvent.clientZipCode;
+      this.clientCountry = currentEvent.clientCountry;
+      this.eventDateUnix = currentEvent.eventDateUnix;
+      this.eventDate = currentEvent.eventDate;
+      this.paymentTerms = currentEvent.paymentTerms;
+      this.paymentDueDateUnix = currentEvent.paymentDueDateUnix;
+      this.paymentDueDate = currentEvent.paymentDueDate;
+      this.productDescription = currentEvent.productDescription;
+      this.eventPending = currentEvent.eventPending;
+      this.eventDraft = currentEvent.eventDraft;
+      this.eventItemList = currentEvent.eventItemList;
+      this.eventTotal = currentEvent.eventTotal;
     }
   },
   methods: {
-    ...mapMutations(["TOGGLE_INVOICE", "TOGGLE_MODAL", "TOGGLE_EDIT_INVOICE"]),
+    ...mapMutations(["TOGGLE_EVENT", "TOGGLE_MODAL", "TOGGLE_EDIT_EVENT"]),
 
-    ...mapActions(["UPDATE_INVOICE", "GET_EVENTS"]),
+    ...mapActions(["UPDATE_EVENT", "GET_EVENTS"]),
 
     checkClick(e) {
-      if (e.target === this.$refs.invoiceWrap) {
+      if (e.target === this.$refs.eventWrap) {
         this.TOGGLE_MODAL();
       }
     },
 
-    closeInvoice() {
-      this.TOGGLE_INVOICE();
-      if (this.editInvoice) {
-        this.TOGGLE_EDIT_INVOICE();
+    closeEvent() {
+      this.TOGGLE_EVENT();
+      if (this.editEvent) {
+        this.TOGGLE_EDIT_EVENT();
       }
     },
 
-    addNewInvoiceItem() {
-      this.invoiceItemList.push({
+    addNewEventItem() {
+      this.eventItemList.push({
         id: uid(),
         itemName: "",
         qty: "",
@@ -220,39 +220,39 @@ export default {
       });
     },
 
-    deleteInvoiceItem(id) {
-      this.invoiceItemList = this.invoiceItemList.filter((item) => item.id !== id);
+    deleteEventItem(id) {
+      this.eventItemList = this.eventItemList.filter((item) => item.id !== id);
     },
 
-    calInvoiceTotal() {
-      this.invoiceTotal = 0;
-      this.invoiceItemList.forEach((item) => {
-        this.invoiceTotal += item.total;
+    calEventTotal() {
+      this.eventTotal = 0;
+      this.eventItemList.forEach((item) => {
+        this.eventTotal += item.total;
       });
     },
 
-    publishInvoice() {
-      this.invoicePending = true;
+    publishEvent() {
+      this.eventPending = true;
     },
 
     saveDraft() {
-      this.invoiceDraft = true;
+      this.eventDraft = true;
     },
 
-    async uploadInvoice() {
-      if (this.invoiceItemList.length <= 0) {
+    async uploadEvent() {
+      if (this.eventItemList.length <= 0) {
         alert("Please ensure you filled out work items!");
         return;
       }
 
       this.loading = true;
 
-      this.calInvoiceTotal();
+      this.calEventTotal();
 
       const dataBase = db.collection("events").doc();
 
       await dataBase.set({
-        invoiceId: uid(6),
+        eventId: uid(6),
         billerStreetAddress: this.billerStreetAddress,
         billerCity: this.billerCity,
         billerZipCode: this.billerZipCode,
@@ -263,35 +263,35 @@ export default {
         clientCity: this.clientCity,
         clientZipCode: this.clientZipCode,
         clientCountry: this.clientCountry,
-        invoiceDate: this.invoiceDate,
-        invoiceDateUnix: this.invoiceDateUnix,
+        eventDate: this.eventDate,
+        eventDateUnix: this.eventDateUnix,
         paymentTerms: this.paymentTerms,
         paymentDueDate: this.paymentDueDate,
         paymentDueDateUnix: this.paymentDueDateUnix,
         productDescription: this.productDescription,
-        invoiceItemList: this.invoiceItemList,
-        invoiceTotal: this.invoiceTotal,
-        invoicePending: this.invoicePending,
-        invoiceDraft: this.invoiceDraft,
-        invoicePaid: null,
+        eventItemList: this.eventItemList,
+        eventTotal: this.eventTotal,
+        eventPending: this.eventPending,
+        eventDraft: this.eventDraft,
+        eventPaid: null,
       });
 
       this.loading = false;
 
-      this.TOGGLE_INVOICE();
+      this.TOGGLE_EVENT();
 
       this.GET_EVENTS();
     },
 
-    async updateInvoice() {
-      if (this.invoiceItemList.length <= 0) {
+    async updateEvent() {
+      if (this.eventItemList.length <= 0) {
         alert("Please ensure you filled out work items!");
         return;
       }
 
       this.loading = true;
 
-      this.calInvoiceTotal();
+      this.calEventTotal();
 
       const dataBase = db.collection("events").doc(this.docId);
 
@@ -310,30 +310,30 @@ export default {
         paymentDueDate: this.paymentDueDate,
         paymentDueDateUnix: this.paymentDueDateUnix,
         productDescription: this.productDescription,
-        invoiceItemList: this.invoiceItemList,
-        invoiceTotal: this.invoiceTotal,
+        eventItemList: this.eventItemList,
+        eventTotal: this.eventTotal,
       });
 
       this.loading = false;
 
       const data = {
         docId: this.docId,
-        routeId: this.$route.params.invoiceId,
+        routeId: this.$route.params.eventId,
       };
 
-      this.UPDATE_INVOICE(data);
+      this.UPDATE_EVENT(data);
     },
 
     submitForm() {
-      if (this.editInvoice) {
-        this.updateInvoice();
+      if (this.editEvent) {
+        this.updateEvent();
         return;
       }
-      this.uploadInvoice();
+      this.uploadEvent();
     },
   },
   computed: {
-    ...mapState(["editInvoice", "currentInvoiceArray"]),
+    ...mapState(["editEvent", "currentEventArray"]),
   },
   watch: {
     paymentTerms() {
@@ -346,7 +346,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.invoice-wrap {
+.event-wrap {
   position: fixed;
   top: 0;
   left: 0;
@@ -360,7 +360,7 @@ export default {
     left: 90px;
   }
 
-  .invoice-content {
+  .event-content {
     position: relative;
     padding: 56px;
     max-width: 700px;
@@ -399,9 +399,9 @@ export default {
       }
     }
 
-    // Invoice Work
+    // Event Work
 
-    .invoice-work {
+    .event-work {
       .payment {
         gap: 24px;
         div {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="currentInvoice" class="invoice-view container">
+  <div v-if="currentEvent" class="event-view container">
     <router-link class="nav-link flex" :to="{ name: 'Home' }">
       <img src="@/assets/icon-arrow-left.svg" alt="" /> Go Back
     </router-link>
@@ -10,25 +10,25 @@
         <div
           class="status-button flex"
           :class="{
-            paid: currentInvoice.invoicePaid,
-            draft: currentInvoice.invoiceDraft,
-            pending: currentInvoice.invoicePending,
+            paid: currentEvent.eventPaid,
+            draft: currentEvent.eventDraft,
+            pending: currentEvent.eventPending,
           }"
         >
-          <span v-if="currentInvoice.invoicePaid">Paid</span>
-          <span v-if="currentInvoice.invoiceDraft">Draft</span>
-          <span v-if="currentInvoice.invoicePending">Pending</span>
+          <span v-if="currentEvent.eventPaid">Paid</span>
+          <span v-if="currentEvent.eventDraft">Draft</span>
+          <span v-if="currentEvent.eventPending">Pending</span>
         </div>
       </div>
       <div class="right flex">
-        <button @click="toggleEditInvoice" class="dark-purple">Edit</button>
-        <button @click="deleteInvoice(currentInvoice.docId)" class="red">Delete</button>
-        <button @click="updateStatusToPaid(currentInvoice.docId)" v-if="currentInvoice.invoicePending" class="green">
+        <button @click="toggleEditEvent" class="dark-purple">Edit</button>
+        <button @click="deleteEvent(currentEvent.docId)" class="red">Delete</button>
+        <button @click="updateStatusToPaid(currentEvent.docId)" v-if="currentEvent.eventPending" class="green">
           Mark as Paid
         </button>
         <button
-          v-if="currentInvoice.invoiceDraft || currentInvoice.invoicePaid"
-          @click="updateStatusToPending(currentInvoice.docId)"
+          v-if="currentEvent.eventDraft || currentEvent.eventPaid"
+          @click="updateStatusToPending(currentEvent.docId)"
           class="orange"
         >
           Mark as Pending
@@ -36,42 +36,42 @@
       </div>
     </div>
 
-    <!-- Invoice Details -->
-    <div class="invoice-details flex flex-column">
+    <!-- Event Details -->
+    <div class="event-details flex flex-column">
       <div class="top flex">
         <div class="left flex flex-column">
-          <p><span>#</span>{{ currentInvoice.invoiceId }}</p>
-          <p>{{ currentInvoice.productDescription }}</p>
+          <p><span>#</span>{{ currentEvent.eventId }}</p>
+          <p>{{ currentEvent.productDescription }}</p>
         </div>
         <div class="right flex flex-column">
-          <p>{{ currentInvoice.billerStreetAddress }}</p>
-          <p>{{ currentInvoice.billerCity }}</p>
-          <p>{{ currentInvoice.billerZipCode }}</p>
-          <p>{{ currentInvoice.billerCountry }}</p>
+          <p>{{ currentEvent.billerStreetAddress }}</p>
+          <p>{{ currentEvent.billerCity }}</p>
+          <p>{{ currentEvent.billerZipCode }}</p>
+          <p>{{ currentEvent.billerCountry }}</p>
         </div>
       </div>
       <div class="middle flex">
         <div class="payment flex flex-column">
-          <h4>Invoice Date</h4>
+          <h4>Event Date</h4>
           <p>
-            {{ currentInvoice.invoiceDate }}
+            {{ currentEvent.eventDate }}
           </p>
           <h4>Payment Date</h4>
           <p>
-            {{ currentInvoice.paymentDueDate }}
+            {{ currentEvent.paymentDueDate }}
           </p>
         </div>
         <div class="bill flex flex-column">
           <h4>Bill To</h4>
-          <p>{{ currentInvoice.clientName }}</p>
-          <p>{{ currentInvoice.clientStreetAddress }}</p>
-          <p>{{ currentInvoice.clientCity }}</p>
-          <p>{{ currentInvoice.clientZipCode }}</p>
-          <p>{{ currentInvoice.clientCountry }}</p>
+          <p>{{ currentEvent.clientName }}</p>
+          <p>{{ currentEvent.clientStreetAddress }}</p>
+          <p>{{ currentEvent.clientCity }}</p>
+          <p>{{ currentEvent.clientZipCode }}</p>
+          <p>{{ currentEvent.clientCountry }}</p>
         </div>
         <div class="send-to flex flex-column">
           <h4>Sent To</h4>
-          <p>{{ currentInvoice.clientEmail }}</p>
+          <p>{{ currentEvent.clientEmail }}</p>
         </div>
       </div>
       <div class="bottom flex flex-column">
@@ -82,7 +82,7 @@
             <p>Price</p>
             <p>Total</p>
           </div>
-          <div v-for="(item, index) in currentInvoice.invoiceItemList" :key="index" class="item flex">
+          <div v-for="(item, index) in currentEvent.eventItemList" :key="index" class="item flex">
             <p>{{ item.itemName }}</p>
             <p>{{ item.qty }}</p>
             <p>{{ item.price }}</p>
@@ -91,7 +91,7 @@
         </div>
         <div class="total flex">
           <p>Amount Due</p>
-          <p>{{ currentInvoice.invoiceTotal }}</p>
+          <p>{{ currentEvent.eventTotal }}</p>
         </div>
       </div>
     </div>
@@ -101,32 +101,32 @@
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
-  name: "invoiceView",
+  name: "eventView",
   data() {
     return {
-      currentInvoice: null,
+      currentEvent: null,
     };
   },
   created() {
-    this.getCurrentInvoice();
+    this.getCurrentEvent();
   },
   methods: {
-    ...mapMutations(["SET_CURRENT_INVOICE", "TOGGLE_EDIT_INVOICE", "TOGGLE_INVOICE"]),
+    ...mapMutations(["SET_CURRENT_EVENT", "TOGGLE_EDIT_EVENT", "TOGGLE_EVENT"]),
 
-    ...mapActions(["DELETE_INVOICE", "UPDATE_STATUS_TO_PENDING", "UPDATE_STATUS_TO_PAID"]),
+    ...mapActions(["DELETE_EVENT", "UPDATE_STATUS_TO_PENDING", "UPDATE_STATUS_TO_PAID"]),
 
-    getCurrentInvoice() {
-      this.SET_CURRENT_INVOICE(this.$route.params.invoiceId);
-      this.currentInvoice = this.currentInvoiceArray[0];
+    getCurrentEvent() {
+      this.SET_CURRENT_EVENT(this.$route.params.eventId);
+      this.currentEvent = this.currentEventArray[0];
     },
 
-    toggleEditInvoice() {
-      this.TOGGLE_EDIT_INVOICE();
-      this.TOGGLE_INVOICE();
+    toggleEditEvent() {
+      this.TOGGLE_EDIT_EVENT();
+      this.TOGGLE_EVENT();
     },
 
-    async deleteInvoice(docId) {
-      await this.DELETE_INVOICE(docId);
+    async deleteEvent(docId) {
+      await this.DELETE_EVENT(docId);
       this.$router.push({ name: "Home" });
     },
 
@@ -139,12 +139,12 @@ export default {
     },
   },
   computed: {
-    ...mapState(["currentInvoiceArray", "editInvoice"]),
+    ...mapState(["currentEventArray", "editEvent"]),
   },
   watch: {
-    editInvoice() {
-      if (!this.editInvoice) {
-        this.currentInvoice = this.currentInvoiceArray[0];
+    editEvent() {
+      if (!this.editEvent) {
+        this.currentEvent = this.currentEventArray[0];
       }
     },
   },
@@ -152,7 +152,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.invoice-view {
+.event-view {
   .nav-link {
     margin-bottom: 32px;
     align-items: center;
@@ -166,7 +166,7 @@ export default {
   }
 
   .header,
-  .invoice-details {
+  .event-details {
     background-color: #1e2139;
     border-radius: 20px;
   }
@@ -195,7 +195,7 @@ export default {
     }
   }
 
-  .invoice-details {
+  .event-details {
     padding: 48px;
     margin-top: 24px;
 

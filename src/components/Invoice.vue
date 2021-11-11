@@ -1,19 +1,19 @@
 <template>
-  <router-link class="invoice flex" :to="{ name: 'Invoice', params: { invoiceId: invoice.invoiceId } }">
+  <router-link class="event flex" :to="{ name: 'Event', params: { eventId: event.eventId } }">
     <div class="left flex">
-      <span class="tracking-number">#{{ invoice.invoiceId }}</span>
-      <span class="due-date">{{ invoice.paymentDueDate }}</span>
-      <span class="person">{{ invoice.clientName }}</span>
+      <span class="tracking-number">#{{ event.eventId }}</span>
+      <span class="due-date">{{ event.paymentDueDate }}</span>
+      <span class="person">{{ event.clientName }}</span>
     </div>
     <div class="right flex">
-      <span class="price">Kr {{ invoice.invoiceTotal }}</span>
+      <span class="price">Kr {{ event.eventTotal }}</span>
       <div
         class="status-button flex"
-        :class="{ paid: invoice.invoicePaid, draft: invoice.invoiceDraft, pending: invoice.invoicePending }"
+        :class="{ paid: event.eventPaid, draft: event.eventDraft, pending: event.eventPending }"
       >
-        <span v-if="invoice.invoicePaid">Paid</span>
-        <span v-if="invoice.invoiceDraft">Draft</span>
-        <span v-if="invoice.invoicePending">Pending</span>
+        <span v-if="event.eventPaid">Paid</span>
+        <span v-if="event.eventDraft">Draft</span>
+        <span v-if="event.eventPending">Pending</span>
       </div>
       <div class="icon">
         <img src="@/assets/icon-arrow-right.svg" alt="" />
@@ -24,13 +24,13 @@
 
 <script>
 export default {
-  name: "invoice",
-  props: ["invoice"],
+  name: "event",
+  props: ["event"],
 };
 </script>
 
 <style lang="scss" scoped>
-.invoice {
+.event {
   text-decoration: none;
   cursor: pointer;
   gap: 16px;
