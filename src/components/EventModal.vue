@@ -83,7 +83,7 @@
           <input required type="text" id="productDescription" v-model="productDescription" />
         </div>
         <div class="work-items">
-          <h3>Item List</h3>
+          <h2>Item List</h2>
           <table class="item-list">
             <tr class="table-heading flex">
               <th class="item-name">Item Name</th>
@@ -113,7 +113,7 @@
           <button type="button" @click="closeEvent" class="red">Cancel</button>
         </div>
         <div class="right flex">
-          <button v-if="!editEvent" type="submit" @click="saveDraft" class="dark-purple">Save Draft</button>
+          <button v-if="!editEvent" type="submit" @click="saveDraft" class="orange">Save Draft</button>
           <button v-if="!editEvent" type="submit" @click="publishEvent" class="purple">Create Event</button>
           <button v-if="editEvent" type="sumbit" class="orange">Save Draft</button>
           <button v-if="editEvent" type="sumbit" class="purple">Update Event</button>
@@ -273,7 +273,7 @@ export default {
         eventTotal: this.eventTotal,
         eventPending: this.eventPending,
         eventDraft: this.eventDraft,
-        eventPaid: null,
+        eventPublished: null,
       });
 
       this.loading = false;
@@ -371,7 +371,12 @@ export default {
     box-shadow: 10px 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
     h1 {
-      margin-bottom: 48px;
+      margin-bottom: 58px;
+      color: #fff;
+    }
+
+    h2 {
+      margin-bottom: 38px;
       color: #fff;
     }
 
@@ -411,6 +416,10 @@ export default {
       }
 
       .work-items {
+        h2 {
+          color: #fff;
+        }
+
         .item-list {
           width: 100%;
 

@@ -15,7 +15,7 @@
           <ul v-show="filterMenu" class="filter-menu">
             <li @click="filteredEvents">Draft</li>
             <li @click="filteredEvents">Pending</li>
-            <li @click="filteredEvents">Paid</li>
+            <li @click="filteredEvents">Published</li>
             <li @click="filteredEvents">Clear Filter</li>
           </ul>
         </div>
@@ -82,8 +82,8 @@ export default {
         if (this.filteredEvent === "Pending") {
           return event.eventPending === true;
         }
-        if (this.filteredEvent === "Paid") {
-          return event.eventPaid === true;
+        if (this.filteredEvent === "Published") {
+          return event.eventPublished === true;
         }
         return event;
       });

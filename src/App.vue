@@ -179,7 +179,7 @@ button,
   border-radius: 10px;
 }
 
-.paid {
+.published {
   &::before {
     background-color: #33d69f;
   }

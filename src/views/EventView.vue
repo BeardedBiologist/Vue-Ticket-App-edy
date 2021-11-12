@@ -10,12 +10,12 @@
         <div
           class="status-button flex"
           :class="{
-            paid: currentEvent.eventPaid,
+            published: currentEvent.eventPublished,
             draft: currentEvent.eventDraft,
             pending: currentEvent.eventPending,
           }"
         >
-          <span v-if="currentEvent.eventPaid">Paid</span>
+          <span v-if="currentEvent.eventPublished">Published</span>
           <span v-if="currentEvent.eventDraft">Draft</span>
           <span v-if="currentEvent.eventPending">Pending</span>
         </div>
@@ -23,11 +23,11 @@
       <div class="right flex">
         <button @click="toggleEditEvent" class="dark-purple">Edit</button>
         <button @click="deleteEvent(currentEvent.docId)" class="red">Delete</button>
-        <button @click="updateStatusToPaid(currentEvent.docId)" v-if="currentEvent.eventPending" class="green">
-          Mark as Paid
+        <button @click="updateStatusToPublished(currentEvent.docId)" v-if="currentEvent.eventPending" class="green">
+          Mark as Published
         </button>
         <button
-          v-if="currentEvent.eventDraft || currentEvent.eventPaid"
+          v-if="currentEvent.eventDraft || currentEvent.eventPublished"
           @click="updateStatusToPending(currentEvent.docId)"
           class="orange"
         >
@@ -113,7 +113,7 @@ export default {
   methods: {
     ...mapMutations(["SET_CURRENT_EVENT", "TOGGLE_EDIT_EVENT", "TOGGLE_EVENT"]),
 
-    ...mapActions(["DELETE_EVENT", "UPDATE_STATUS_TO_PENDING", "UPDATE_STATUS_TO_PAID"]),
+    ...mapActions(["DELETE_EVENT", "UPDATE_STATUS_TO_PENDING", "UPDATE_STATUS_TO_PUBLISHED"]),
 
     getCurrentEvent() {
       this.SET_CURRENT_EVENT(this.$route.params.eventId);
@@ -130,8 +130,8 @@ export default {
       this.$router.push({ name: "Home" });
     },
 
-    updateStatusToPaid(docId) {
-      this.UPDATE_STATUS_TO_PAID(docId);
+    updateStatusToPublished(docId) {
+      this.UPDATE_STATUS_TO_PUBLISHED(docId);
     },
 
     updateStatusToPending(docId) {

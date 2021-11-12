@@ -34,10 +34,10 @@ export default createStore({
     DELETE_EVENT(state, payload) {
       state.eventData = state.eventData.filter((event) => event.docId !== payload);
     },
-    UPDATE_STATUS_TO_PAID(state, payload) {
+    UPDATE_STATUS_TO_PUBLISHED(state, payload) {
       state.eventData.forEach((event) => {
         if (event.docId === payload) {
-          event.eventPaid = true;
+          event.eventPublished = true;
           event.eventPending = false;
         }
       });
@@ -45,7 +45,7 @@ export default createStore({
     UPDATE_STATUS_TO_PENDING(state, payload) {
       state.eventData.forEach((event) => {
         if (event.docId === payload) {
-          event.eventPaid = false;
+          event.eventPublished = false;
           event.eventPending = true;
           event.eventDraft = false;
         }
@@ -81,7 +81,7 @@ export default createStore({
             eventTotal: doc.data().eventTotal,
             eventPending: doc.data().eventPending,
             eventDraft: doc.data().eventDraft,
-            eventPaid: doc.data().eventPaid,
+            eventPublished: doc.data().eventPublished,
           };
           commit("SET_EVENT_DATA", data);
         }
@@ -100,18 +100,18 @@ export default createStore({
       await getEvent.delete();
       commit("DELETE_EVENT", docId);
     },
-    async UPDATE_STATUS_TO_PAID({ commit }, docId) {
+    async UPDATE_STATUS_TO_PUBLISHED({ commit }, docId) {
       const getEvent = db.collection("events").doc(docId);
       await getEvent.update({
-        eventPaid: true,
+        eventPublished: true,
         eventPending: false,
       });
-      commit("UPDATE_STATUS_TO_PAID", docId);
+      commit("UPDATE_STATUS_TO_PUBLISHED", docId);
     },
     async UPDATE_STATUS_TO_PENDING({ commit }, docId) {
       const getEvent = db.collection("events").doc(docId);
       await getEvent.update({
-        eventPaid: false,
+        eventPublished: false,
         eventPending: true,
         eventDraft: false,
       });

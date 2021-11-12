@@ -9,9 +9,9 @@
       <span class="price">Kr {{ event.eventTotal }}</span>
       <div
         class="status-button flex"
-        :class="{ paid: event.eventPaid, draft: event.eventDraft, pending: event.eventPending }"
+        :class="{ published: event.eventPublished, draft: event.eventDraft, pending: event.eventPending }"
       >
-        <span v-if="event.eventPaid">Paid</span>
+        <span v-if="event.eventPublished">Published</span>
         <span v-if="event.eventDraft">Draft</span>
         <span v-if="event.eventPending">Pending</span>
       </div>
