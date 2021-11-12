@@ -1,7 +1,7 @@
 <template>
   <header class="flex">
-    <div class="branding flex">
-      <img src="@/assets/new/people.event.png" alt="" />
+    <div @click="clickMethod" class="branding flex">
+      <img @click="clickMethod" src="@/assets/new/people.event.png" alt="" />
     </div>
   </header>
 </template>
@@ -9,12 +9,22 @@
 <script>
 export default {
   name: "navigation",
+  data() {
+    return {
+
+    };
+  },
+  methods: {
+    clickMethod() {
+      this.$router.push({ name: "Home" });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 header {
-  z-index: 99;
+  z-index: 105;
   flex-direction: row;
   background-color: #5f5aea;
   @media (min-width: 900px) {

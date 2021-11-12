@@ -3,7 +3,7 @@
     <div class="modal-content">
       <p>Are you sure you want to exit? Your changes will not be saved?</p>
       <div class="actions flex">
-        <button @click="closeModal" class="purple">Return</button>
+        <button @click="closeModal" class="green">Return</button>
         <button @click="closeEvent" class="red">Close</button>
       </div>
     </div>
@@ -37,7 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 .modal {
-  z-index: 100;
+  z-index: 103;
   position: fixed;
   justify-content: center;
   align-items: center;
@@ -48,7 +48,7 @@ export default {
     border-radius: 20px;
     padding: 48px 32px;
     max-width: 450px;
-    background-color: #fff;
+    background-color: rgba(159, 90, 253, 0.9);
     color: #fff;
 
     p {

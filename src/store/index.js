@@ -50,7 +50,7 @@ export default createStore({
           event.eventDraft = false;
         }
       });
-    },
+    }
   },
   actions: {
     async GET_EVENTS({ commit, state }) {
@@ -116,7 +116,7 @@ export default createStore({
         eventDraft: false,
       });
       commit("UPDATE_STATUS_TO_PENDING", docId);
-    },
+    }
   },
   modules: {},
 });

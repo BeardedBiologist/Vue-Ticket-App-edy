@@ -347,6 +347,7 @@ export default {
 
 <style lang="scss" scoped>
 .event-wrap {
+  z-index: 101;
   position: fixed;
   top: 0;
   left: 0;
@@ -381,7 +382,7 @@ export default {
     }
 
     h4 {
-      color: #8860d0;
+      color: #fff;
       font-size: 12px;
       margin-bottom: 24px;
     }
@@ -460,7 +461,7 @@ export default {
         }
 
         .button {
-          color: #fff;
+          color: black;
           background-color: #fff;
           align-items: center;
           justify-content: center;
@@ -482,6 +483,7 @@ export default {
 
       .right {
         justify-content: flex-end;
+        margin-bottom: 60px;
       }
     }
   }
@@ -498,8 +500,8 @@ export default {
   input,
   select {
     width: 100%;
-    background-color: #5ab9ea;
-    color: #fff;
+    background-color: #fff;
+    color: black;
     border-radius: 4px;
     padding: 12px 4px;
     border: none;

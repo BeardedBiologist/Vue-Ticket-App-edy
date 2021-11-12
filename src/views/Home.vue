@@ -8,9 +8,9 @@
       </div>
       <div class="right flex">
         <div @click="toggleFilterMenu" class="filter flex">
-          <span
-            >Filter by status <span v-if="filteredEvent">: {{ filteredEvent }}</span></span
-          >
+          <span>
+            Filter by status <span v-if="filteredEvent">: {{ filteredEvent }}</span>
+            </span>
           <img src="@/assets/icon-arrow-down.svg" alt="" />
           <ul v-show="filterMenu" class="filter-menu">
             <li @click="filteredEvents">Draft</li>
@@ -102,6 +102,7 @@ export default {
     .left,
     .right {
       flex: 1;
+      z-index: 1;
     }
 
     .right {
@@ -133,7 +134,7 @@ export default {
           position: absolute;
           top: 25px;
           list-style: none;
-          background-color: #5ab9ea;
+          background-color: #8f5aea;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
           li {
@@ -142,7 +143,7 @@ export default {
             padding: 10px 20px;
 
             &:hover {
-              color: #5ab9ea;
+              color: #8f5aea;
               background-color: #fff;
             }
           }
