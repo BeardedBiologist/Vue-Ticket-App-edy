@@ -164,7 +164,8 @@ export default {
     // get current date for event date field
     if (!this.editEvent) {
       this.eventDateUnix = Date.now();
-      this.eventDate = new Date(this.eventDateUnix).toLocaleDateString("en-us", this.dateOptions);
+      //removed toLocaleDateString ->> toLocaleString
+      this.eventDate = new Date(this.eventDateUnix).toLocaleString("en-us", this.dateOptions);
     }
 
     if (this.editEvent) {
