@@ -61,6 +61,12 @@ export default createStore({
           const data = {
             docId: doc.id,
             eventId: doc.data().eventId,
+            eventName: doc.data().eventName,
+            event_loc: doc.data().event_loc,
+            startsAt: doc.data().startsAt,
+            endsAt: doc.data().endsAt,
+            seating: doc.data().seating,
+            eventDescription: doc.data().eventDescription,
             billerStreetAddress: doc.data().billerStreetAddress,
             billerCity: doc.data().billerCity,
             billerPostCode: doc.data().billerPostCode,
@@ -84,6 +90,13 @@ export default createStore({
             eventPending: doc.data().eventPending,
             eventDraft: doc.data().eventDraft,
             eventPublished: doc.data().eventPublished,
+            ticket_set_1: doc.data().ticket_set_1,
+            ticket_set_2: doc.data().ticket_set_2,
+            ticket_set_3: doc.data().ticket_set_3,
+            pricing_set_1: doc.data().pricing_set_1,
+            event_set_1: doc.data().event_set_1,
+            event_set_2: doc.data().event_set_2,
+            event_set_3: doc.data().event_set_3,
           };
           commit("SET_EVENT_DATA", data);
         }

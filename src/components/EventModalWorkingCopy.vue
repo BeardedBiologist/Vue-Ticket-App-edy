@@ -70,6 +70,7 @@
 								id="yes"
 								name="seating"
 								value="True"
+								v-model="seating"
 							/>
 							<label for="yes">Yes</label>
 							<input
@@ -77,6 +78,7 @@
 								id="no"
 								name="seating"
 								value="False"
+								v-model="seating"
 							/>
 							<label for="no">No</label>
 						</div>
@@ -217,6 +219,7 @@
 							id="ticket_set_1"
 							name="ticket_set_1"
 							value="True"
+							v-model="ticket_set_1"
 						/>
 						<label for="ticket_set_1">
 							Attach tickets to order confirmation email</label
@@ -226,6 +229,7 @@
 							id="ticket_set_2"
 							name="ticket_set_2"
 							value="True"
+							v-model="ticket_set_2"
 						/>
 						<label for="ticket_set_2">
 							Display tickets on order confirmation page</label
@@ -235,6 +239,7 @@
 							id="ticket_set_3"
 							name="ticket_set_3"
 							value="True"
+							v-model="ticket_set_3"
 						/>
 						<label for="ticket_set_3">
 							Send tickets to ADMIN on sale</label
@@ -244,6 +249,7 @@
 							id="ticket_set_4"
 							name="ticket_set_4"
 							value="True"
+							v-model="ticket_set_4"
 						/>
 						<label for="ticket_set_4">
 							Display nuber of tickets available</label
@@ -258,6 +264,7 @@
 							id="pricing_set_1"
 							name="pricing_set_1"
 							value="True"
+							v-model="pricing_set_1"
 						/>
 						<label for="pricing_set_1">
 							Include platform fee in displayed prices</label
@@ -272,6 +279,7 @@
 							id="event_set_1"
 							name="event_set_1"
 							value="True"
+							v-model="event_set_1"
 						/>
 						<label for="event_set_1">
 							Enable custom registration forms</label
@@ -281,6 +289,7 @@
 							id="event_set_2"
 							name="event_set_2"
 							value="True"
+							v-model="event_set_2"
 						/>
 						<label for="event_set_2">
 							Enable additional customer forms</label
@@ -290,6 +299,7 @@
 							id="event_set_3"
 							name="event_set_3"
 							value="True"
+							v-model="event_set_3"
 						/>
 						<label for="event_set_3"> Enable attendee badges</label>
 					</div>
@@ -344,6 +354,12 @@ export default {
 			dateOptions: { year: "numeric", month: "short", day: "numeric" },
 			docId: null,
 			loading: null,
+			eventName: null,
+			event_loc: null,
+			startsAt: null,
+			endsAt: null,
+			seating: null,
+			eventDescription: null,
 			billerStreetAddress: null,
 			billerCity: null,
 			billerPostCode: null,
@@ -366,6 +382,13 @@ export default {
 			eventCategoryList: [],
 			isCategory: null,
 			eventTotal: 0,
+			ticket_set_1: false,
+			ticket_set_2: false,
+			ticket_set_3: false,
+			pricing_set_1: false,
+			event_set_1: false,
+			event_set_2: false,
+			event_set_3: false,
 		};
 	},
 	components: {
@@ -385,6 +408,12 @@ export default {
 		if (this.editEvent) {
 			const currentEvent = this.currentEventArray[0];
 			this.docId = currentEvent.docId;
+			this.eventName = currentEvent.eventName;
+			this.event_loc = currentEvent.event_loc;
+			this.startsAt = currentEvent.startsAt;
+			this.endsAt = currentEvent.endsAt;
+			this.seating = currentEvent.seating;
+			this.eventDescription = currentEvent.eventDescription;
 			this.billerStreetAddress = currentEvent.billerStreetAddress;
 			this.billerCity = currentEvent.billerCity;
 			this.billerPostCode = currentEvent.billerPostCode;
@@ -407,6 +436,13 @@ export default {
 			this.eventCategoryList = currentEvent.eventCategoryList;
 			this.isCategory = currentEvent.isCategory;
 			this.eventTotal = currentEvent.eventTotal;
+			this.ticket_set_1 = currentEvent.ticket_set_1,
+			this.ticket_set_2 = currentEvent.ticket_set_2,
+			this.ticket_set_3 = currentEvent.ticket_set_3,
+			this.pricing_set_1 = currentEvent.pricing_set_1,
+			this.event_set_1 = currentEvent.event_set_1,
+			this.event_set_2 = currentEvent.event_set_2,
+			this.event_set_3 = currentEvent.event_set_3
 		}
 	},
 	methods: {
@@ -472,6 +508,12 @@ export default {
 
 			await dataBase.set({
 				eventId: uid(6),
+				eventName: this.eventName,
+				event_loc: this.event_loc,
+				startsAt: this.startsAt,
+				endsAt: this.endsAt,
+				seating: this.seating,
+				eventDescription: this.eventDescription,
 				billerStreetAddress: this.billerStreetAddress,
 				billerCity: this.billerCity,
 				billerPostCode: this.billerPostCode,
@@ -494,6 +536,13 @@ export default {
 				eventTotal: this.eventTotal,
 				eventPending: this.eventPending,
 				eventDraft: this.eventDraft,
+				ticket_set_1: this.ticket_set_1,
+				ticket_set_2: this.ticket_set_2,
+				ticket_set_3: this.ticket_set_3,
+				pricing_set_1: this.pricing_set_1,
+				event_set_1: this.event_set_1,
+				event_set_2: this.event_set_2,
+				event_set_3: this.event_set_3,
 				eventPublished: null,
 			});
 
@@ -517,6 +566,12 @@ export default {
 			const dataBase = db.collection("events").doc(this.docId);
 
 			await dataBase.update({
+				eventName: this.eventName,
+				event_loc: this.event_loc,
+				startsAt: this.startsAt,
+				endsAt: this.endsAt,
+				seating: this.seating,
+				eventDescription: this.eventDescription,
 				billerStreetAddress: this.billerStreetAddress,
 				billerCity: this.billerCity,
 				billerPostCode: this.billerPostCode,
@@ -535,6 +590,13 @@ export default {
 				eventCategoryList: this.eventCategoryList,
 				isCategory: this.isCategory,
 				eventTotal: this.eventTotal,
+				ticket_set_1: this.ticket_set_1,
+				ticket_set_2: this.ticket_set_2,
+				ticket_set_3: this.ticket_set_3,
+				pricing_set_1: this.pricing_set_1,
+				event_set_1: this.event_set_1,
+				event_set_2: this.event_set_2,
+				event_set_3: this.event_set_3,
 			});
 
 			this.loading = false;
@@ -707,6 +769,9 @@ export default {
 
 						img {
 							flex-basis: 10%;
+							-webkit-filter: invert(100%) sepia(0%) saturate(0%)
+								hue-rotate(93deg) brightness(103%)
+								contrast(103%);
 							filter: invert(100%) sepia(0%) saturate(0%)
 								hue-rotate(93deg) brightness(103%)
 								contrast(103%);
@@ -753,7 +818,7 @@ export default {
 			margin: 10px;
 			.box {
 				padding: 0px 10px;
-			
+
 				label {
 					display: flex;
 					align-items: center;
