@@ -20,7 +20,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import Navigation from "./components/Navigation";
-import EventModal from "./components/EventModal";
+import EventModal from "./components/EventModalWorkingCopy";
 import Modal from "./components/Modal";
 export default {
   data() {

@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     clickMethod() {
-      this.$router.push({ name: "Home" });
+      this.$router.push('/');
     },
   },
 };
