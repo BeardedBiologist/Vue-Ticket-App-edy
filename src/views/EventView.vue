@@ -21,9 +21,7 @@
 				</div>
 			</div>
 			<div class="right flex">
-				<button @click="toggleEditEvent" class="dark-purple">
-					Edit
-				</button>
+				<button @click="toggleEditEvent" class="purple">Edit</button>
 				<button @click="deleteEvent(currentEvent.docId)" class="red">
 					Delete
 				</button>
@@ -50,25 +48,27 @@
 		<div class="event-details flex flex-column">
 			<div class="top flex">
 				<div class="left flex flex-column">
-					<p><span>#</span>{{ currentEvent.eventId }}</p>
-					<p>{{ currentEvent.productDescription }}</p>
+					<p>{{ currentEvent.eventName }}</p>
+					<p>
+						Event ID: #<span>{{ currentEvent.eventId }}</span>
+					</p>
+					<!--   <p>{{ currentEvent.productDescription }}</p>   -->
 				</div>
 				<div class="right flex flex-column">
-					<p>{{ currentEvent.billerStreetAddress }}</p>
+					<!-- <p>{{ currentEvent.billerStreetAddress }}</p>
 					<p>{{ currentEvent.billerCity }}</p>
 					<p>{{ currentEvent.billerPostCode }}</p>
-					<p>{{ currentEvent.billerCountry }}</p>
+					<p>{{ currentEvent.billerCountry }}</p> 
+					
+					NEED TO INPUT SALES TICKET INFORMATION
+					-->
 				</div>
 			</div>
 			<div class="middle flex">
 				<div class="payment flex flex-column">
 					<h4>Event Date</h4>
 					<p>
-						{{ currentEvent.eventDate }}
-					</p>
-					<h4>Payment Date</h4>
-					<p>
-						{{ currentEvent.paymentDueDate }}
+						{{ currentEvent.eventDateExtend }}
 					</p>
 				</div>
 				<div class="bill flex flex-column">
@@ -85,12 +85,13 @@
 				</div>
 			</div>
 			<div class="bottom flex flex-column">
+				<!--<h3 class="flex">TICKETS</h3>-->
 				<div class="billing-items">
 					<div class="heading flex">
-						<p>Item Name</p>
+						<p>Ticket Type</p>
 						<p>QTY</p>
 						<p>Price</p>
-						<p>Total</p>
+						<p>Tickets Sold</p>
 					</div>
 					<div
 						v-for="(item, index) in currentEvent.eventItemList"
@@ -100,11 +101,11 @@
 						<p>{{ item.itemName }}</p>
 						<p>{{ item.qty }}</p>
 						<p>{{ item.price }}</p>
-						<p>{{ item.total }}</p>
+						<p>0{{ item.total }}/ {{item.qty}}</p>
 					</div>
 				</div>
 				<div class="total flex">
-					<p>Amount Due</p>
+					<p>TOTALS</p>
 					<p>{{ currentEvent.eventTotal }}</p>
 				</div>
 			</div>
@@ -189,7 +190,7 @@ export default {
 
 	.header,
 	.event-details {
-		background-color: #5ab9ea;
+		background-color: #7292e4;
 		border-radius: 20px;
 	}
 
@@ -230,7 +231,7 @@ export default {
 			.left {
 				font-size: 12px;
 				p:first-child {
-					font-size: 24px;
+					font-size: 30px;
 					text-transform: uppercase;
 					color: #fff;
 					margin-bottom: 8px;
@@ -241,7 +242,7 @@ export default {
 				}
 
 				span {
-					color: #888eb0;
+					color: #b537b9;
 				}
 			}
 
@@ -301,11 +302,16 @@ export default {
 
 		.bottom {
 			margin-top: 50px;
+			
+			h3 {
+				color: #fff;
+				padding: 0px 25px;
+			}
 
 			.billing-items {
 				padding: 32px;
 				border-radius: 20px 20px 0 0;
-				background-color: #fff;
+				background-color: #5680e9;
 
 				.heading {
 					color: #dfe3fa;

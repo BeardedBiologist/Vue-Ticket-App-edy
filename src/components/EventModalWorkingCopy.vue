@@ -538,6 +538,7 @@ export default {
 				clientStreetAddress: this.clientStreetAddress,
 				clientCity: this.clientCity,
 				clientPostCode: this.clientPostCode,
+				eventDate: this.eventDate,
 				eventDateUnixExtend: this.eventDateUnixExtend,
 				eventDateExtend: this.eventDateExtend,
 				clientCountry: this.clientCountry,

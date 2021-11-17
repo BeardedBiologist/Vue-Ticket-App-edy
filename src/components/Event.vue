@@ -4,14 +4,11 @@
 		:to="{ name: 'Event', params: { eventId: event.eventId } }"
 	>
 		<div class="left flex">
-			<span class="tracking-number">{{
-				event.eventDate
-			}}</span>
+			<span class="event-date">{{ event.eventDate }}</span>
 			<span class="due-date">{{ event.eventName }}</span>
-			<span class="person">{{ event.clientName }}</span>
 		</div>
 		<div class="right flex">
-			<span class="price">Kr {{ event.eventTotal }}</span>
+			<span class="total-tickets">0 / 0 tickets {{ event.eventTotal }}</span>
 			<div
 				class="status-button flex"
 				:class="{
@@ -63,7 +60,7 @@ export default {
 			flex: 1;
 		}
 
-		.tracking-number {
+		.event-date {
 			text-transform: uppercase;
 		}
 	}
@@ -73,7 +70,7 @@ export default {
 		flex-basis: 40%;
 		align-items: center;
 
-		.price {
+		.total-tickets {
 			flex: 1;
 			font-size: 16px;
 			font-weight: 600px;

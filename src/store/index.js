@@ -75,6 +75,8 @@ export default createStore({
             clientCountry: doc.data().clientCountry,
             eventDateUnix: doc.data().eventDateUnix,
             eventDate: doc.data().eventDate,
+            eventDateUnixExtend: doc.data().eventDateUnixExtend,
+            eventDateExtend: doc.data().eventDateExtend,
             productDescription: doc.data().productDescription,
             eventItemList: doc.data().eventItemList,
             eventCategoryList: doc.data().eventCategoryList,
