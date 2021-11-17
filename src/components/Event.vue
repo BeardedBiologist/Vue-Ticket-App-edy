@@ -4,8 +4,10 @@
 		:to="{ name: 'Event', params: { eventId: event.eventId } }"
 	>
 		<div class="left flex">
-			<span class="tracking-number">#{{ event.eventId }}</span>
-			<span class="due-date">{{ event.paymentDueDate }}</span>
+			<span class="tracking-number">{{
+				event.eventDate
+			}}</span>
+			<span class="due-date">{{ event.eventName }}</span>
 			<span class="person">{{ event.clientName }}</span>
 		</div>
 		<div class="right flex">

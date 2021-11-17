@@ -351,7 +351,8 @@ export default {
 	name: "eventModal",
 	data() {
 		return {
-			dateOptions: { year: "numeric", month: "short", day: "numeric" },
+			dateOptions: { year: "numeric", month: "short", day: "numeric"},
+			dateOptionsExtend: { weekday: 'long', year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric',  hour12: false},
 			docId: null,
 			loading: null,
 			eventName: null,
@@ -360,10 +361,6 @@ export default {
 			endsAt: null,
 			seating: null,
 			eventDescription: null,
-			billerStreetAddress: null,
-			billerCity: null,
-			billerPostCode: null,
-			billerCountry: null,
 			clientName: null,
 			clientEmail: null,
 			clientStreetAddress: null,
@@ -372,15 +369,13 @@ export default {
 			clientCountry: null,
 			eventDateUnix: null,
 			eventDate: null,
-			paymentTerms: null,
-			paymentDueDateUnix: null,
-			paymentDueDate: null,
+			eventDateUnixExtend: null,
+			eventDateExtend: null,
 			productDescription: null,
 			eventPending: null,
 			eventDraft: null,
 			eventItemList: [],
 			eventCategoryList: [],
-			isCategory: null,
 			eventTotal: 0,
 			ticket_set_1: false,
 			ticket_set_2: false,
@@ -396,14 +391,6 @@ export default {
 	},
 	created() {
 		// get current date for event date field
-		if (!this.editEvent) {
-			this.eventDateUnix = Date.now();
-			//removed toLocaleDateString ->> toLocaleString
-			this.eventDate = new Date(this.eventDateUnix).toLocaleString(
-				"en-us",
-				this.dateOptions
-			);
-		}
 
 		if (this.editEvent) {
 			const currentEvent = this.currentEventArray[0];
@@ -414,10 +401,6 @@ export default {
 			this.endsAt = currentEvent.endsAt;
 			this.seating = currentEvent.seating;
 			this.eventDescription = currentEvent.eventDescription;
-			this.billerStreetAddress = currentEvent.billerStreetAddress;
-			this.billerCity = currentEvent.billerCity;
-			this.billerPostCode = currentEvent.billerPostCode;
-			this.billerCountry = currentEvent.billerCountry;
 			this.clientName = currentEvent.clientName;
 			this.clientEmail = currentEvent.clientEmail;
 			this.clientStreetAddress = currentEvent.clientStreetAddress;
@@ -426,23 +409,20 @@ export default {
 			this.clientCountry = currentEvent.clientCountry;
 			this.eventDateUnix = currentEvent.eventDateUnix;
 			this.eventDate = currentEvent.eventDate;
-			this.paymentTerms = currentEvent.paymentTerms;
-			this.paymentDueDateUnix = currentEvent.paymentDueDateUnix;
-			this.paymentDueDate = currentEvent.paymentDueDate;
+			this.eventDateUnixExtend = currentEvent.eventDateUnixExtend;
+			this.eventDateExtend = currentEvent.eventDateExtend;
 			this.productDescription = currentEvent.productDescription;
 			this.eventPending = currentEvent.eventPending;
 			this.eventDraft = currentEvent.eventDraft;
 			this.eventItemList = currentEvent.eventItemList;
 			this.eventCategoryList = currentEvent.eventCategoryList;
-			this.isCategory = currentEvent.isCategory;
-			this.eventTotal = currentEvent.eventTotal;
-			this.ticket_set_1 = currentEvent.ticket_set_1,
-			this.ticket_set_2 = currentEvent.ticket_set_2,
-			this.ticket_set_3 = currentEvent.ticket_set_3,
-			this.pricing_set_1 = currentEvent.pricing_set_1,
-			this.event_set_1 = currentEvent.event_set_1,
-			this.event_set_2 = currentEvent.event_set_2,
-			this.event_set_3 = currentEvent.event_set_3
+			this.ticket_set_1 = currentEvent.ticket_set_1;
+			this.ticket_set_2 = currentEvent.ticket_set_2;
+			this.ticket_set_3 = currentEvent.ticket_set_3;
+			this.pricing_set_1 = currentEvent.pricing_set_1;
+			this.event_set_1 = currentEvent.event_set_1;
+			this.event_set_2 = currentEvent.event_set_2;
+			this.event_set_3 = currentEvent.event_set_3;
 		}
 	},
 	methods: {
@@ -451,7 +431,7 @@ export default {
 		...mapActions(["UPDATE_EVENT", "GET_EVENTS"]),
 
 		checkClick(e) {
-			if (e.target === this.$refs.eventWrap) {
+			if (e.target === this.$refs.eventWrap) {	
 				this.TOGGLE_MODAL();
 			}
 		},
@@ -469,7 +449,6 @@ export default {
 				itemName: "",
 				qty: "",
 				price: 0,
-				total: 0,
 			});
 		},
 
@@ -477,13 +456,6 @@ export default {
 			this.eventItemList = this.eventItemList.filter(
 				(item) => item.id !== id
 			);
-		},
-
-		calEventTotal() {
-			this.eventTotal = 0;
-			this.eventItemList.forEach((item) => {
-				this.eventTotal += item.total;
-			});
 		},
 
 		publishEvent() {
@@ -502,8 +474,6 @@ export default {
 
 			this.loading = true;
 
-			this.calEventTotal();
-
 			const dataBase = db.collection("events").doc();
 
 			await dataBase.set({
@@ -514,10 +484,6 @@ export default {
 				endsAt: this.endsAt,
 				seating: this.seating,
 				eventDescription: this.eventDescription,
-				billerStreetAddress: this.billerStreetAddress,
-				billerCity: this.billerCity,
-				billerPostCode: this.billerPostCode,
-				billerCountry: this.billerCountry,
 				clientName: this.clientName,
 				clientEmail: this.clientEmail,
 				clientStreetAddress: this.clientStreetAddress,
@@ -525,15 +491,12 @@ export default {
 				clientPostCode: this.clientPostCode,
 				clientCountry: this.clientCountry,
 				eventDate: this.eventDate,
-				eventDateUnix: this.eventDateUnix,
-				paymentTerms: this.paymentTerms,
-				paymentDueDate: this.paymentDueDate,
-				paymentDueDateUnix: this.paymentDueDateUnix,
+				eventDateUnix: this.eventDateUnix,				
+				eventDateExtend: this.eventDateExtend,
+				eventDateUnixExtend: this.eventDateUnixExtend,
 				productDescription: this.productDescription,
 				eventItemList: this.eventItemList,
 				eventCategoryList: this.eventCategoryList,
-				isCategory: this.isCategory,
-				eventTotal: this.eventTotal,
 				eventPending: this.eventPending,
 				eventDraft: this.eventDraft,
 				ticket_set_1: this.ticket_set_1,
@@ -561,8 +524,6 @@ export default {
 
 			this.loading = true;
 
-			this.calEventTotal();
-
 			const dataBase = db.collection("events").doc(this.docId);
 
 			await dataBase.update({
@@ -572,24 +533,17 @@ export default {
 				endsAt: this.endsAt,
 				seating: this.seating,
 				eventDescription: this.eventDescription,
-				billerStreetAddress: this.billerStreetAddress,
-				billerCity: this.billerCity,
-				billerPostCode: this.billerPostCode,
-				billerCountry: this.billerCountry,
 				clientName: this.clientName,
 				clientEmail: this.clientEmail,
 				clientStreetAddress: this.clientStreetAddress,
 				clientCity: this.clientCity,
 				clientPostCode: this.clientPostCode,
+				eventDateUnixExtend: this.eventDateUnixExtend,
+				eventDateExtend: this.eventDateExtend,
 				clientCountry: this.clientCountry,
-				paymentTerms: this.paymentTerms,
-				paymentDueDate: this.paymentDueDate,
-				paymentDueDateUnix: this.paymentDueDateUnix,
 				productDescription: this.productDescription,
 				eventItemList: this.eventItemList,
 				eventCategoryList: this.eventCategoryList,
-				isCategory: this.isCategory,
-				eventTotal: this.eventTotal,
 				ticket_set_1: this.ticket_set_1,
 				ticket_set_2: this.ticket_set_2,
 				ticket_set_3: this.ticket_set_3,
@@ -621,14 +575,19 @@ export default {
 		...mapState(["editEvent", "currentEventArray"]),
 	},
 	watch: {
-		paymentTerms() {
-			const futureDate = new Date();
-			this.paymentDueDateUnix = futureDate.setDate(
-				futureDate.getDate() + parseInt(this.paymentTerms)
+		startsAt() {
+		this.eventDateUnix = this.startsAt
+		//removed toLocaleDateString ->> toLocaleString
+		this.eventDate = new Date(this.eventDateUnix).toLocaleDateString(
+			"en-uk",
+			this.dateOptions
 			);
-			this.paymentDueDate = new Date(
-				this.paymentDueDateUnix
-			).toLocaleDateString("en-us", this.dateOptions);
+		this.eventDateUnixExtend = this.startsAt
+		//removed toLocaleDateString ->> toLocaleString
+		this.eventDateExtend = new Date(this.eventDateUnixExtend).toLocaleDateString(
+			"en-uk",
+			this.dateOptionsExtend
+			);
 		},
 	},
 };
