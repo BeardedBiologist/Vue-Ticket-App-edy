@@ -79,6 +79,7 @@ export default createStore({
             eventDateExtend: doc.data().eventDateExtend,
             productDescription: doc.data().productDescription,
             eventItemList: doc.data().eventItemList,
+            merchItemList: doc.data().merchItemList,
             eventCategoryList: doc.data().eventCategoryList,
             eventPending: doc.data().eventPending,
             eventDraft: doc.data().eventDraft,

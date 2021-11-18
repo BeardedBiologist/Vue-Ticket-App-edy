@@ -50,42 +50,29 @@
 				<div class="left flex flex-column">
 					<p>{{ currentEvent.eventName }}</p>
 					<p>
-						Event ID: #<span>{{ currentEvent.eventId }}</span>
+						{{ currentEvent.eventDateExtend }}
 					</p>
-					<!--   <p>{{ currentEvent.productDescription }}</p>   -->
 				</div>
 				<div class="right flex flex-column">
-					<!-- <p>{{ currentEvent.billerStreetAddress }}</p>
-					<p>{{ currentEvent.billerCity }}</p>
-					<p>{{ currentEvent.billerPostCode }}</p>
-					<p>{{ currentEvent.billerCountry }}</p> 
-					
-					NEED TO INPUT SALES TICKET INFORMATION
-					-->
+					<p>
+						Event ID: #<span>{{ currentEvent.eventId }}</span>
+					</p>
 				</div>
 			</div>
 			<div class="middle flex">
 				<div class="payment flex flex-column">
-					<h4>Event Date</h4>
-					<p>
-						{{ currentEvent.eventDateExtend }}
-					</p>
+					<!-- SECTION 1 -->
 				</div>
 				<div class="bill flex flex-column">
-					<h4>Bill To</h4>
-					<p>{{ currentEvent.clientName }}</p>
-					<p>{{ currentEvent.clientStreetAddress }}</p>
-					<p>{{ currentEvent.clientCity }}</p>
-					<p>{{ currentEvent.clientPostCode }}</p>
-					<p>{{ currentEvent.clientCountry }}</p>
+					<!-- SECTION 2 -->
 				</div>
 				<div class="send-to flex flex-column">
-					<h4>Sent To</h4>
+					<h4>Sent Event Report To:</h4>
 					<p>{{ currentEvent.clientEmail }}</p>
 				</div>
 			</div>
 			<div class="bottom flex flex-column">
-				<!--<h3 class="flex">TICKETS</h3>-->
+				<h1 class="flex">TICKETS</h1>
 				<div class="billing-items">
 					<div class="heading flex">
 						<p>Ticket Type</p>
@@ -98,10 +85,39 @@
 						:key="index"
 						class="item flex"
 					>
-						<p>{{ item.itemName }}</p>
+						<button @click="editTicket" class="purple">
+							{{ item.itemName }}
+						</button>
 						<p>{{ item.qty }}</p>
 						<p>{{ item.price }}</p>
-						<p>0{{ item.total }}/ {{item.qty}}</p>
+						<p>0{{ item.total }} / {{ item.qty }}</p>
+					</div>
+				</div>
+				<div class="total flex">
+					<p>TOTALS</p>
+					<p>{{ currentEvent.eventTotal }}</p>
+				</div>
+			</div>
+			<div class="bottom flex flex-column">
+				<h1 class="flex">MERCHANDISE</h1>
+				<div class="billing-items">
+					<div class="heading flex">
+						<p>Merch Type</p>
+						<p>QTY</p>
+						<p>Price</p>
+						<p>Merch Sold</p>
+					</div>
+					<div
+						v-for="(item, index) in currentEvent.merchItemList"
+						:key="index"
+						class="item flex"
+					>
+						<button @click="editTicket" class="purple">
+							{{ item.itemName }}
+						</button>
+						<p>{{ item.qty }}</p>
+						<p>{{ item.price }}</p>
+						<p>0{{ item.total }} / {{ item.qty }}</p>
 					</div>
 				</div>
 				<div class="total flex">
@@ -130,6 +146,7 @@ export default {
 			"SET_CURRENT_EVENT",
 			"TOGGLE_EDIT_EVENT",
 			"TOGGLE_EVENT",
+			"TOGGLE_TICKET",
 		]),
 
 		...mapActions([
@@ -137,6 +154,10 @@ export default {
 			"UPDATE_STATUS_TO_PENDING",
 			"UPDATE_STATUS_TO_PUBLISHED",
 		]),
+
+		editTicket() {
+			this.TOGGLE_TICKET();
+		},
 
 		getCurrentEvent() {
 			this.SET_CURRENT_EVENT(this.$route.params.eventId);
@@ -270,6 +291,7 @@ export default {
 			.bill,
 			.payment {
 				flex: 1;
+				border: 1px solid blue;
 			}
 
 			.payment {
@@ -296,16 +318,16 @@ export default {
 			}
 
 			.send-to {
-				flex: 2;
+				flex: 1;
+				text-align: right;
 			}
 		}
 
 		.bottom {
 			margin-top: 50px;
-			
-			h3 {
+
+			h1 {
 				color: #fff;
-				padding: 0px 25px;
 			}
 
 			.billing-items {
@@ -317,6 +339,7 @@ export default {
 					color: #dfe3fa;
 					font-size: 12px;
 					margin-bottom: 32px;
+					padding: 0;
 
 					p:first-child {
 						flex: 3;
@@ -333,14 +356,16 @@ export default {
 					margin-bottom: 32px;
 					font-size: 13px;
 					color: #fff;
+					align-items: center;
+					justify-content: center;
 
 					&:last-child {
 						margin-bottom: 0;
 					}
 
-					p:first-child {
+					button {
 						flex: 3;
-						text-align: left;
+						text-align: center;
 					}
 
 					p {

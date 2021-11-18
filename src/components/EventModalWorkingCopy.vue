@@ -306,6 +306,46 @@
 				</div>
 			</div>
 
+			<!-- MERCH DETAILS -->
+			<div class="event-work flex flex-column">
+				<h2>MERCHANDISE</h2>
+				<div class="merch-items">
+					<table class="item-list">
+						<tr class="table-heading flex">
+							<th class="item-name">Merch Name</th>
+							<th class="qty">Qty</th>
+							<th class="price">Price</th>
+						</tr>
+						<tr
+							class="table-items flex"
+							v-for="(item, index) in merchItemList"
+							:key="index"
+						>
+							<td class="item-name">
+								<input type="text" v-model="item.itemName" />
+							</td>
+							<td class="qty">
+								<input type="text" v-model="item.qty" />
+							</td>
+							<td class="price">
+								<input type="text" v-model="item.price" />
+							</td>
+							<img
+								@click="deleteMerchItem(item.id)"
+								src="@/assets/icon-delete.svg"
+								alt=""
+								class="trash"
+							/>
+						</tr>
+					</table>
+
+					<div @click="addNewMerchItem" class="flex button">
+						<img src="@/assets/icon-plus.svg" alt="" />
+						Add New Item
+					</div>
+				</div>
+			</div>
+
 			<!-- SAVE / EXIT -->
 			<div class="save flex">
 				<div class="left">
@@ -351,8 +391,16 @@ export default {
 	name: "eventModal",
 	data() {
 		return {
-			dateOptions: { year: "numeric", month: "short", day: "numeric"},
-			dateOptionsExtend: { weekday: 'long', year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric',  hour12: false},
+			dateOptions: { year: "numeric", month: "short", day: "numeric" },
+			dateOptionsExtend: {
+				weekday: "long",
+				year: "numeric",
+				month: "short",
+				day: "numeric",
+				hour: "numeric",
+				minute: "numeric",
+				hour12: false,
+			},
 			docId: null,
 			loading: null,
 			eventName: null,
@@ -375,6 +423,7 @@ export default {
 			eventPending: null,
 			eventDraft: null,
 			eventItemList: [],
+			merchItemList: [],
 			eventCategoryList: [],
 			eventTotal: 0,
 			ticket_set_1: false,
@@ -415,6 +464,7 @@ export default {
 			this.eventPending = currentEvent.eventPending;
 			this.eventDraft = currentEvent.eventDraft;
 			this.eventItemList = currentEvent.eventItemList;
+			this.merchItemList = currentEvent.merchItemList;
 			this.eventCategoryList = currentEvent.eventCategoryList;
 			this.ticket_set_1 = currentEvent.ticket_set_1;
 			this.ticket_set_2 = currentEvent.ticket_set_2;
@@ -431,7 +481,7 @@ export default {
 		...mapActions(["UPDATE_EVENT", "GET_EVENTS"]),
 
 		checkClick(e) {
-			if (e.target === this.$refs.eventWrap) {	
+			if (e.target === this.$refs.eventWrap) {
 				this.TOGGLE_MODAL();
 			}
 		},
@@ -452,8 +502,23 @@ export default {
 			});
 		},
 
+		addNewMerchItem() {
+			this.merchItemList.push({
+				id: uid(),
+				itemName: "",
+				qty: "",
+				price: 0,
+			});
+		},
+
 		deleteEventItem(id) {
 			this.eventItemList = this.eventItemList.filter(
+				(item) => item.id !== id
+			);
+		},
+
+		deleteMerchItem(id) {
+			this.merchItemList = this.merchItemList.filter(
 				(item) => item.id !== id
 			);
 		},
@@ -491,11 +556,12 @@ export default {
 				clientPostCode: this.clientPostCode,
 				clientCountry: this.clientCountry,
 				eventDate: this.eventDate,
-				eventDateUnix: this.eventDateUnix,				
+				eventDateUnix: this.eventDateUnix,
 				eventDateExtend: this.eventDateExtend,
 				eventDateUnixExtend: this.eventDateUnixExtend,
 				productDescription: this.productDescription,
 				eventItemList: this.eventItemList,
+				merchItemList: this.merchItemList,
 				eventCategoryList: this.eventCategoryList,
 				eventPending: this.eventPending,
 				eventDraft: this.eventDraft,
@@ -544,6 +610,7 @@ export default {
 				clientCountry: this.clientCountry,
 				productDescription: this.productDescription,
 				eventItemList: this.eventItemList,
+				merchItemList: this.merchItemList,
 				eventCategoryList: this.eventCategoryList,
 				ticket_set_1: this.ticket_set_1,
 				ticket_set_2: this.ticket_set_2,
@@ -577,18 +644,17 @@ export default {
 	},
 	watch: {
 		startsAt() {
-		this.eventDateUnix = this.startsAt
-		//removed toLocaleDateString ->> toLocaleString
-		this.eventDate = new Date(this.eventDateUnix).toLocaleDateString(
-			"en-uk",
-			this.dateOptions
+			this.eventDateUnix = this.startsAt;
+			//removed toLocaleDateString ->> toLocaleString
+			this.eventDate = new Date(this.eventDateUnix).toLocaleDateString(
+				"en-uk",
+				this.dateOptions
 			);
-		this.eventDateUnixExtend = this.startsAt
-		//removed toLocaleDateString ->> toLocaleString
-		this.eventDateExtend = new Date(this.eventDateUnixExtend).toLocaleDateString(
-			"en-uk",
-			this.dateOptionsExtend
-			);
+			this.eventDateUnixExtend = this.startsAt;
+			//removed toLocaleDateString ->> toLocaleString
+			this.eventDateExtend = new Date(
+				this.eventDateUnixExtend
+			).toLocaleDateString("en-uk", this.dateOptionsExtend);
 		},
 	},
 };
@@ -701,7 +767,8 @@ export default {
 				}
 			}
 
-			.work-items {
+			.work-items,
+			.merch-items {
 				h2 {
 					color: #fff;
 				}
