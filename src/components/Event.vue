@@ -8,7 +8,10 @@
 			<span class="due-date">{{ event.eventName }}</span>
 		</div>
 		<div class="right flex">
-			<span class="total-tickets">0 / 0 tickets {{ event.eventTotal }}</span>
+			<span class="total-tickets"
+				>0 / {{ event.eventTotal }}<br />
+				sold</span
+			>
 			<div
 				class="status-button flex"
 				:class="{
