@@ -134,7 +134,7 @@
 				</div>
 				<div class="total flex">
 					<p>TOTALS</p>
-					<p>{{ currentEvent.eventTotal }}</p>
+					<p>{{ currentEvent.merchTotal }}</p>
 				</div>
 			</div>
 		</div>

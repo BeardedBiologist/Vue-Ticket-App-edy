@@ -426,6 +426,7 @@ export default {
 			merchItemList: [],
 			eventCategoryList: [],
 			eventTotal: null,
+			merchTotal: null,
 			ticket_set_1: false,
 			ticket_set_2: false,
 			ticket_set_3: false,
@@ -474,6 +475,7 @@ export default {
 			this.event_set_2 = currentEvent.event_set_2;
 			this.event_set_3 = currentEvent.event_set_3;
 			this.eventTotal = currentEvent.eventTotal;
+			this.merchTotal = currentEvent.merchTotal;
 		}
 	},
 	methods: {
@@ -532,6 +534,13 @@ export default {
 			});
 		},
 
+		calMerchTotal() {
+			this.merchTotal = 0;
+			this.merchItemList.forEach((item) => {
+				this.merchTotal += parseFloat(item.qty)
+			});
+		},
+
 		publishEvent() {
 			this.eventPending = true;
 		},
@@ -549,6 +558,7 @@ export default {
 			this.loading = true;
 
 			this.calEventTotal();
+			this.calMerchTotal();
 
 			const dataBase = db.collection("events").doc();
 
@@ -584,6 +594,7 @@ export default {
 				event_set_2: this.event_set_2,
 				event_set_3: this.event_set_3,
 				eventTotal: this.eventTotal,
+				merchTotal: this.merchTotal,
 				eventPublished: null,
 			});
 
@@ -603,6 +614,7 @@ export default {
 			this.loading = true;
 
 			this.calEventTotal();
+			this.calMerchTotal();
 
 			const dataBase = db.collection("events").doc(this.docId);
 
@@ -634,6 +646,7 @@ export default {
 				event_set_2: this.event_set_2,
 				event_set_3: this.event_set_3,
 				eventTotal: this.eventTotal,
+				merchTotal: this.merchTotal,
 			});
 
 			this.loading = false;
