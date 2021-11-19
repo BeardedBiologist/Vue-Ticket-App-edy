@@ -91,6 +91,7 @@ export default createStore({
             event_set_1: doc.data().event_set_1,
             event_set_2: doc.data().event_set_2,
             event_set_3: doc.data().event_set_3,
+            eventTotal: doc.data().eventTotal
           };
           commit("SET_EVENT_DATA", data);
         }

@@ -52,6 +52,10 @@
 					<p>
 						{{ currentEvent.eventDateExtend }}
 					</p>
+					<p>
+						Location:
+						{{ currentEvent.event_loc }}
+					</p>
 				</div>
 				<div class="right flex flex-column">
 					<p>
@@ -62,9 +66,13 @@
 			<div class="middle flex">
 				<div class="payment flex flex-column">
 					<!-- SECTION 1 -->
+					<h2>0 / 0</h2>
+					<h3>TICKETS SOLD</h3>
 				</div>
 				<div class="bill flex flex-column">
 					<!-- SECTION 2 -->
+					<h2>0 / 0</h2>
+					<h3>CHECKED-IN</h3>
 				</div>
 				<div class="send-to flex flex-column">
 					<h4>Sent Event Report To:</h4>
@@ -98,7 +106,11 @@
 					<p>{{ currentEvent.eventTotal }}</p>
 				</div>
 			</div>
-			<div class="bottom flex flex-column">
+			<div
+				v-if="currentEvent.merchItemList.length !== 0"
+				:key="currentEvent.merchItemList.length"
+				class="bottom flex flex-column"
+			>
 				<h1 class="flex">MERCHANDISE</h1>
 				<div class="billing-items">
 					<div class="heading flex">
@@ -291,7 +303,9 @@ export default {
 			.bill,
 			.payment {
 				flex: 1;
-				border: 1px solid blue;
+				justify-content: center;
+				align-items: center;
+				//border: 1px solid blue;
 			}
 
 			.payment {
