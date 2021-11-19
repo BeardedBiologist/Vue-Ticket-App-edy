@@ -523,12 +523,12 @@ export default {
 				(item) => item.id !== id
 			);
 		},
-		
+
 		// THIS IS CURRENTLY BROKEN... need to fix
 		calEventTotal() {
 			this.eventTotal = 0;
 			this.eventItemList.forEach((item) => {
-				this.eventTotal += parseInt(item.qty);
+				this.eventTotal += parseFloat(item.qty)
 			});
 		},
 
