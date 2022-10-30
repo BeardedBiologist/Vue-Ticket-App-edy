@@ -202,7 +202,7 @@
 
 					<div @click="addNewEventItem" class="flex button">
 						<img src="@/assets/icon-plus.svg" alt="" />
-						Add New Item
+						Add New Ticket
 					</div>
 				</div>
 			</div>
@@ -341,7 +341,7 @@
 
 					<div @click="addNewMerchItem" class="flex button">
 						<img src="@/assets/icon-plus.svg" alt="" />
-						Add New Item
+						Add New Merch Item
 					</div>
 				</div>
 			</div>
