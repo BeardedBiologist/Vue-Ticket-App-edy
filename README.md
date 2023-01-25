@@ -7,6 +7,8 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
+nvm install 8.19.2
+nvm use 8
 npm run serve
 ```
 
