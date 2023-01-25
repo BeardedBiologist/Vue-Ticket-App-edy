@@ -3,6 +3,7 @@
 ## Project setup
 ```
 npm install
+nvm install
 ```
 
 ### Compiles and hot-reloads for development
